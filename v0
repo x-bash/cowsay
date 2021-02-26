@@ -7,31 +7,15 @@
 # https://serverfault.com/questions/93407/what-command-prints-a-string-as-big-ascii-text-art-in-bash
 cowsay(){
     local IFS
+
     cat <<-A
  ______________________
 < ${*:-$text} >
  ----------------------
 A
 
-    cat <<-'A'
-        \   ^__^
-         \  (oo)\_______
-            (__)\       )\/\
-                ||----w |
-                ||     ||
-A
-}
-
-# https://serverfault.com/questions/93407/what-command-prints-a-string-as-big-ascii-text-art-in-bash
-cowsay.tux(){
-    local IFS
-    cat <<-A
- ______________________
-< ${*:-$text} >
- ----------------------
-A
-
-    cat <<-'A'
+    case "${type}" in
+    tux) cat <<-'A'
    \
     \
         .--.
@@ -42,5 +26,16 @@ A
     /'\_   _/`\
     \___)=(___/
 A
+    ;;
+
+    *) cat <<-'A'
+        \   ^__^
+         \  (oo)\_______
+            (__)\       )\/\
+                ||----w |
+                ||     ||
+A
+    ;;
+    esac
 }
 
