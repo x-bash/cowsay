@@ -7,15 +7,36 @@
 # https://serverfault.com/questions/93407/what-command-prints-a-string-as-big-ascii-text-art-in-bash
 cowsay(){
     local IFS
+    local typ="${1:-cow}"
 
+    case "$typ" in
+        help|h) 
+            cat <<A
+cowsay [tux|cow|help]
+A
+        return 1
+        ;;
+        _x_cmd_advise_json) cat <<A
+{
+    "tux": {},
+    "cow": {},
+    "help|h": {}
+}
+A
+        return 126
+        ;;
+
+        cow|tux)  shift;  ;;
+    esac
+        
     cat <<-A
  ______________________
 < ${*:-$text} >
  ----------------------
 A
 
-    case "${type}" in
-    tux) cat <<'A'
+    case "${typ:-cow}" in
+        tux) cat <<'A'
    \
     \
         .--.
@@ -28,7 +49,7 @@ A
 A
     ;;
 
-    *) cat <<'A'
+        *) cat <<'A'
         \   ^__^
          \  (oo)\_______
             (__)\       )\/\
@@ -38,4 +59,9 @@ A
     ;;
     esac
 }
+
+if [ -n "${BASH_VERSION}${ZSH_VERSION}" ] && [ "${-#*i}" != "$-" ]; then
+    xrc advise/v0
+    advise cowsay
+fi
 
